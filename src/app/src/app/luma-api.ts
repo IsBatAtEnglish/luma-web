@@ -1,8 +1,7 @@
-class LumaAPI {
-    async getGuilds() : Promise<void> {
-        
-    }
+import User from "./interfaces/user"
+import Guild from "./interfaces/guild"
 
+class LumaAPI {
     async OAuth() : Promise<void> {
         return new Promise(resolve => {
             // Abrir o popup onde ocorrerá a autenticação
@@ -27,8 +26,25 @@ class LumaAPI {
         })
     }
 
-    // Faz login com o token retornado no OAuth.
-    async login(tok: string) {}
+    async getGuilds() : Promise<Guild[]> {
+        let guilds = await fetch('/api/userGuilds')
+                        .then(r => r.json())
+        
+        if (guilds.error)
+            throw new Error('Lista de servidores não obtida: ' + guilds.error)
+
+        return guilds
+    }
+
+    async getUser() : Promise<User> {
+        let user = await fetch('/api/currentUser')
+                        .then(r => r.json())
+        
+        if (!user.id)
+            throw new Error('Usuário não obtido: ' + user.error)
+
+        return user
+    }
 }
 
 export default LumaAPI

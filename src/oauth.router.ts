@@ -1,7 +1,7 @@
 import Koa from 'koa'
 import Router from 'koa-router'
 import fetch from 'node-fetch'
-import exchangeCode from './lib/oauth.utils'
+import { exchangeCode } from './lib/oauth.utils'
 import { storeOAuthToken } from './auth.tokens'
 
 // Escopos para o OAuth

@@ -1,4 +1,5 @@
 import { AuthTokens } from './db'
+import { isOAuthTokenValid } from './lib/oauth.utils'
 
 /**
  * Gera uma string aleatória para ser usada nos tokens de acesso.
@@ -11,6 +12,10 @@ const generateAuthTokenString = () : string => {
     return encodeURIComponent(randNumb1 + randNumb2 + randNumb3)
 }
 
+/**
+ * Retorna um token OAuth através de um token de acesso Luma.
+ * @param lumaToken Token de acesso Luma.
+ */
 const getOAuthToken = async (lumaToken: string) : Promise<string> => {
     let token: string = await AuthTokens.get(lumaToken)
 
@@ -33,4 +38,17 @@ const storeOAuthToken = async (oauthToken: string, expires: number) : Promise<st
     return lumaToken
 }
 
-export { getOAuthToken, storeOAuthToken, generateAuthTokenString }
+/**
+ * Verifica se um token Luma é válido.
+ * @param lumaToken Token de acesso Luma.
+ */
+const isLumaTokenValid = async (lumaToken: string) : Promise<boolean> => {
+    try {
+        let oauthToken = await getOAuthToken(lumaToken)
+        return await isOAuthTokenValid(oauthToken)
+    } catch(ex) {
+        return false
+    }
+}
+
+export { getOAuthToken, storeOAuthToken, generateAuthTokenString, isLumaTokenValid }

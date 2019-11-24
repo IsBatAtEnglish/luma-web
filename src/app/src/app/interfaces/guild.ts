@@ -2,7 +2,8 @@ interface Guild {
     id: string,
     name: string,
     icon: string,
-    ownerID: string
+    owner: boolean,
+    permissions: number
 }
 
 export default Guild

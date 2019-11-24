@@ -23,4 +23,21 @@ const exchangeCode = async (code: string, scope: string) => {
     return resp
 }
 
-export default exchangeCode
+/**
+ * Verifica se um token OAuth é válido.
+ * @param oauthToken Token de acesso OAuth.
+ */
+const isOAuthTokenValid = async (oauthToken: string) : Promise<boolean> => {
+    let resp = 
+        await fetch(`https://discordapp.com/api/users/@me`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${oauthToken}`
+            }
+        }).then(r => r.json())
+
+    // Se não houve erro, o token é válido.
+    return resp.error === undefined
+}
+
+export { exchangeCode, isOAuthTokenValid }

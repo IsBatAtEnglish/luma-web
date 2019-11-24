@@ -5,6 +5,7 @@ interface User {
     username: string,
     discriminator: string,
     avatar: string,
+    locale: string,
     guilds: Guild[]
 }
 
