@@ -1,3 +1,6 @@
-import Luma from "./luma-api"
+import LumaAPI from "./luma-api"
+
+const luma = new LumaAPI()
+
 //@ts-ignore
-window.Luma = Luma
+window.luma = luma

@@ -1,7 +1,8 @@
 import Koa from 'koa'
 import Router from 'koa-router'
 import fetch from 'node-fetch'
-import exchangeCode from './lib/oauth.codeexchange'
+import exchangeCode from './lib/oauth.utils'
+import { storeOAuthToken } from './auth.tokens'
 
 // Escopos para o OAuth
 const SCOPE = ['identify', 'guilds'].join(' ')
@@ -37,11 +38,19 @@ OAuthRouter.get('/postauth', async (ctx: Koa.Context) => {
             return
         }
 
-        ctx.body = resp
+        let lumaToken = await storeOAuthToken(resp.access_token, resp.expires_in)
+
+        ctx.cookies.set('token', lumaToken, { httpOnly: true, expires: new Date(Date.now() + resp.expires_in * 700) })
+
+        ctx.redirect('/oauth/done')
     } else {
         // Se o código não puder ser lido, forçar o usuário a fazer login novamente
-        ctx.redirect('/start')
+        ctx.redirect('/oauth/start')
     }
+})
+
+OAuthRouter.get('/done',  async (ctx: Koa.Context) => {
+    ctx.body = 'OAuth concluído. Essa janela já pode ser fechada.'
 })
 
 export default OAuthRouter

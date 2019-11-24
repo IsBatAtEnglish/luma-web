@@ -1,13 +1,12 @@
 class LumaAPI {
-    private API_BASE_URL: string = ''
     async getGuilds() : Promise<void> {
         
     }
 
-    OAuth() : Promise<string> {
+    async OAuth() : Promise<void> {
         return new Promise(resolve => {
             // Abrir o popup onde ocorrerá a autenticação
-            let oauth_window = window.open('https://discordapp.com/api/oauth2/authorize?client_id=614506634768547850&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Foauth%2Fend&response_type=code&scope=identify', '_blank', 'width=300,height=480')
+            let oauth_window = window.open('/oauth/start', '_blank', 'width=400,height=480')
 
             let int = setInterval(() => {
                 // Checar se a janela foi fechada.
@@ -18,17 +17,13 @@ class LumaAPI {
                 }
 
                 if (oauth_window.location.pathname &&
-                    oauth_window.location.pathname === '/oauth/end') {
-                    // Procurar metadados na hash (#...) na URL do popup 
-                    let data = oauth_window.location.hash.slice(1)
-
+                    oauth_window.location.pathname === '/oauth/done') {
                     // Finalizar OAuth
-                    if (data) resolve(data)
-
                     clearInterval(int)
                     oauth_window.close()
+                    resolve()
                 }
-            }, 100)
+            }, 400)
         })
     }
 
