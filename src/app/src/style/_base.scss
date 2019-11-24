@@ -1,0 +1,36 @@
+$target-phones: 'only screen and (max-width : 320px)';
+// uso:: @media #{$target-phones} { ... }
+
+$margin1: 0.2em;
+$margin-container: 1.3em;
+$margin-icons: 1em;
+
+$cores: (
+    'primary': #7289DA,
+    'dark': #2C2F33,
+    'darker': #23272A,
+    'text': #FFFFFF,
+    'primary-text': #212121,
+    'secondary-text': #757575,
+    'divider-color': rgb(60, 64, 70),
+    'menu-bg': rgb(236, 236, 236),
+    'accent': #7289DA,
+    'accent2': #00A578,
+    'accent3': #DB2F40,
+    'accent4': #FFA23B
+);
+
+@function cor($id: 'primary') {
+    @return map-get($map: $cores, $key: $id);
+}
+
+// Globais
+::-webkit-scrollbar {
+    width: 4px;  
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+}

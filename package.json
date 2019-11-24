@@ -3,10 +3,12 @@
     "dependencies": {
         "@types/koa": "^2.0.52",
         "@types/koa-router": "^7.0.42",
+        "@types/koa-static": "^4.0.1",
         "@types/node-fetch": "^2.5.4",
         "dotenv": "^8.2.0",
         "koa": "^2.11.0",
         "koa-router": "^7.4.0",
+        "koa-static": "^5.0.0",
         "node-fetch": "^2.6.0",
         "typescript": "^3.7.2"
     },
@@ -15,6 +17,8 @@
     },
     "scripts": {
         "build": "tsc",
+        "build-front": "cd src/app/ && npm run build; cd ../../",
+        "build-all": "npm run build && npm run build-front && mv src/app/dist dist/public",
         "mkenv": "sed 's/=.*/=/' .env > .env.example"
     }
 }

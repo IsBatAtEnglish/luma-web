@@ -1,0 +1,95 @@
+.server-select-overlay {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.server-select-window {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 300px;
+    max-height: 400px;
+    width: 100%;
+    height: 100%;
+    background: cor('dark');
+    padding: $margin-container;
+    box-sizing: border-box;
+    border-radius: 10px;
+    box-shadow: 0px 10px 41px -12px rgba(0,0,0,0.75);
+
+    .title {
+        align-self: flex-start;
+
+        .title {
+            color: cor('text');
+            font-size: 2em;
+            text-align: center;
+            margin: 0.3em 0em;
+        }
+
+        .description {
+            color: cor('secondary-text');
+            font-size: 0.9em;
+        }
+    }
+    .serverlist {
+        flex-grow: 1;
+        width: 100%;
+        overflow-y: scroll;
+
+        .server {
+            display: flex;
+            flex-direction: row;
+            padding: 0.4em 0;
+            color: cor('text');
+            align-items: center;
+            border-radius: 10px;
+            cursor: pointer;
+
+            .icon {
+                width: 2em;
+                height: 2em;
+                background-image: url('https://cdn.discordapp.com/icons/519330541720436736/0187ac6ba73f313d71728f19287103d3.png?size=128');
+                background-size: 100% 100%;
+                margin: 0 1em;
+                border-radius: 50%;
+            }
+
+            .name {
+                flex-grow: 1;
+            }
+
+            .action {
+                font-family: 'Material Icons';
+                background: cor('accent');
+                color: cor('text');
+                border: 0;
+                border-radius: 4px;
+                padding: 0.4em 0.4em;
+                margin-right: 1em;
+                pointer-events: none;
+            }
+
+            .action.add {
+                background: cor('accent2');
+            }
+        }
+
+        .server:hover {
+            background-color: mix(white, cor('dark'), 6%);
+        }
+    }
+
+    .actions {
+        align-self: flex-end;
+        margin-top: 1em;
+    }
+}

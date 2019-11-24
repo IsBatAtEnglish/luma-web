@@ -1,0 +1,22 @@
+{
+    "name": "lumaweb",
+    "dependencies": {
+        "dotenv": "^8.2.0",
+        "koa": "^2.11.0",
+        "webpack": "^4.41.2"
+    },
+    "scripts": {
+        "build:css": "sass src/style/main.scss dist/css/main.css",
+        "build:css:w": "sass src/style/main.scss dist/css/main.css --watch",
+        "build:js": "webpack",
+        "build:js:w": "webpack --watch",
+        "build": "npm run build:js && npm run build:css",
+        "build:w": "npm run build:js:w & npm run build:css:w"
+    },
+    "devDependencies": {
+        "html-webpack-plugin": "^3.2.0",
+        "ts-loader": "^6.2.1",
+        "typescript": "^3.7.2",
+        "webpack-cli": "^3.3.10"
+    }
+}

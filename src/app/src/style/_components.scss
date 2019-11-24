@@ -1,0 +1,23 @@
+.select {
+    width: calc(100% - 0.4em);
+    margin: $margin1;
+    padding: 0.2em;
+}
+
+.button {
+    background-color: cor('accent');
+    color: cor('text');
+    padding: 0.7em 2em;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+.button:hover {
+    background-color: mix(white, cor('accent'), 10%);
+}
+
+.button:active {
+    background-color: mix(black, cor('accent'), 10%);
+}
