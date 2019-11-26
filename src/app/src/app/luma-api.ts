@@ -1,8 +1,10 @@
-import User from "./interfaces/user"
-import Guild from "./interfaces/guild"
+import User from './interfaces/user'
+import Guild from './interfaces/guild'
+
+import { convertPerms } from './lib/discord.permissions'
 
 class LumaAPI {
-    async OAuth() : Promise<void> {
+    async startOAuth() : Promise<void> {
         return new Promise(resolve => {
             // Abrir o popup onde ocorrerá a autenticação
             let oauth_window = window.open('/oauth/start', '_blank', 'width=400,height=480')
@@ -29,7 +31,7 @@ class LumaAPI {
     async getGuilds() : Promise<Guild[]> {
         let guilds = await fetch('/api/userGuilds')
                         .then(r => r.json())
-        
+
         if (guilds.error)
             throw new Error('Lista de servidores não obtida: ' + guilds.error)
 
@@ -45,6 +47,27 @@ class LumaAPI {
 
         return user
     }
+
+    /**
+     * Diz se um servidor pode ser editado no painel da Luma pelo
+     * usuário atual
+     * @param permissions Permissões no servidor
+     */
+    canManageGuild(permissions: number) : boolean {
+        let perms = convertPerms(permissions)
+        
+        //@ts-ignore
+        return perms.MANAGE_GUILD
+    }
+
+    /**
+     * Retorna o link para um ícone de um servidor.
+     * @param guild_id ID do servidor
+     * @param hash Hash do ícone do servidor
+     */
+    cdn_guild_icon(guild_id: string, hash: string) : string {
+        return `https://cdn.discordapp.com/icons/${guild_id}/${hash}.png`
+    }
 }
 
-export default LumaAPI
+export default new LumaAPI

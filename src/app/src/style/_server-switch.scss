@@ -1,5 +1,5 @@
 .server-select-overlay {
-    display: flex;
+    display: none;
     justify-content: center;
     align-content: center;
     align-items: center;
@@ -9,6 +9,10 @@
     width: 100vw;
     height: 100vh;
     background: rgba(0, 0, 0, 0.6);
+}
+
+.server-select-overlay.visible {
+    display: flex;
 }
 
 .server-select-window {

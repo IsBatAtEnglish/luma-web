@@ -1,6 +1,7 @@
-import LumaAPI from "./luma-api"
+import LumaAPI from './luma-api'
+import Dashboard from './dashboard'
 
-const luma = new LumaAPI()
-
-//@ts-ignore
-window.luma = luma
+// @ts-ignore
+window.LumaAPI = LumaAPI
+// @ts-ignore
+window.Dashboard = Dashboard
