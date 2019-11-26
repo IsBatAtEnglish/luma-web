@@ -1,4 +1,4 @@
-import { AuthTokens } from './db'
+import db from './db'
 import { isOAuthTokenValid } from './lib/oauth.utils'
 
 /**
@@ -17,12 +17,23 @@ const generateAuthTokenString = () : string => {
  * @param lumaToken Token de acesso Luma.
  */
 const getOAuthToken = async (lumaToken: string) : Promise<string> => {
-    let token: string = await AuthTokens.get(lumaToken)
+    let token: any = await db().get(`
+        SELECT * FROM web_tokens WHERE luma_token = ?
+    `, lumaToken)
 
-    if (!token)
+    if (!token.discord_token)
         throw new Error('Token inválido ou não existe')
 
-    return token
+    // Verificar se o token está expirado (velho demais)
+    if (new Date() > new Date(token.expires)) {
+        // Remover do banco de dados
+        await db().run(`
+            DELETE FROM web_tokens WHERE luma_token = ?
+        `, lumaToken)
+        throw new Error('Token inválido ou não existe')
+    }
+
+    return token.discord_token
 }
 
 /**
@@ -33,7 +44,10 @@ const getOAuthToken = async (lumaToken: string) : Promise<string> => {
 const storeOAuthToken = async (oauthToken: string, expires: number) : Promise<string> => {
     let lumaToken: string = generateAuthTokenString()
 
-    await AuthTokens.set(lumaToken, oauthToken, expires * 1000)
+    await db().run(`
+        INSERT INTO web_tokens (luma_token, discord_token, expires)
+        VALUES (?, ?, ?);
+    `, lumaToken, oauthToken, new Date(Date.now() + expires * 1000).toISOString())
 
     return lumaToken
 }
