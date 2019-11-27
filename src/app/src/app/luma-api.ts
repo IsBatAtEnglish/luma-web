@@ -55,7 +55,7 @@ class LumaAPI {
      */
     canManageGuild(permissions: number) : boolean {
         let perms = convertPerms(permissions)
-        
+
         //@ts-ignore
         return perms.MANAGE_GUILD
     }

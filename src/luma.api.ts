@@ -35,7 +35,7 @@ LumaAPI.get('/currentUser', requiresAuth, async (ctx: Koa.Context) => {
     ctx.body = resp
 })
 
-// Retorna o usuário autenticado atualmente
+// Retorna as guilds do usuário autenticado
 LumaAPI.get('/userGuilds', requiresAuth, async (ctx: Koa.Context) => {
     let oauthToken: string = await getOAuthToken(ctx.cookies.get('token'))
 

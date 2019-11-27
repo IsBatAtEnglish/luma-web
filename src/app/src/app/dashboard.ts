@@ -1,12 +1,24 @@
 import LumaAPI from './luma-api'
+import Guild from './interfaces/guild'
 
 const $ = document.querySelector.bind(document)
 
 class Dashboard {
     public page: string = 'prefix' // prefix|commands
-    public serverid: string = ''
+    public curr_guild: Guild = null
 
-    public switchServer(serverid: string) : Promise<void> {
+    public switchServer(guild: Guild) : void {
+        let header: HTMLDivElement = $('.sidebar > .header > .server')
+        let icon_e: HTMLDivElement = header.querySelector('.icon')
+        let name_e: HTMLSpanElement = header.querySelector('.info > .name')
+        let id_e: HTMLSpanElement = header.querySelector('.info > .id')
+
+        this.curr_guild = guild    
+        
+        icon_e.setAttribute('style', `background-image: url('${LumaAPI.cdn_guild_icon(guild.id, guild.icon)}')`)
+        name_e.innerText = guild.name
+        id_e.innerText = `ID ${guild.id}`
+
         return
     }
 
@@ -44,12 +56,23 @@ class Dashboard {
                     name.classList.add('name')
                     button.classList.add('action')
 
+                    server.addEventListener('click', () => {
+                        this.closeSwitchServers()
+                        this.switchServer(guild)
+                    })
+
                     serverlist.appendChild(server)
                 }
             })
 
         // Tornar a overlay visível
         overlay.classList.add('visible')
+    }
+
+    public closeSwitchServers() : void {
+        const overlay: HTMLDivElement = $('.server-select-overlay')
+
+        overlay.classList.remove('visible')
     }
 }
 
