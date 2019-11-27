@@ -1,11 +1,13 @@
 import LumaAPI from './luma-api'
 import Guild from './interfaces/guild'
+import { GuildConfig } from './interfaces/guild.config'
 
 const $ = document.querySelector.bind(document)
 
 class Dashboard {
     public page: string = 'prefix' // prefix|commands
     public curr_guild: Guild = null
+    public config: GuildConfig = null
 
     public switchServer(guild: Guild) : void {
         let header: HTMLDivElement = $('.sidebar > .header > .server')
@@ -18,6 +20,8 @@ class Dashboard {
         icon_e.setAttribute('style', `background-image: url('${LumaAPI.cdn_guild_icon(guild.id, guild.icon)}')`)
         name_e.innerText = guild.name
         id_e.innerText = `ID ${guild.id}`
+
+        this.fetchGuildConfig()
 
         return
     }
@@ -73,6 +77,20 @@ class Dashboard {
         const overlay: HTMLDivElement = $('.server-select-overlay')
 
         overlay.classList.remove('visible')
+    }
+
+    /**
+     * Baixa a configuração do servidor da API da Luma.
+     * @param guild O servidor em questão
+     */
+    public async fetchGuildConfig(guild: Guild = this.curr_guild) : Promise<GuildConfig> {
+        let conf: GuildConfig = await LumaAPI.getGuildConfig(guild.id)
+
+        this.config = conf
+
+        $("#prefix").value = conf.prefix
+
+        return conf
     }
 }
 

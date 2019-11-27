@@ -16,6 +16,13 @@ let db: Database
         );
     `)
 
+    await db.exec(`
+        CREATE TABLE IF NOT EXISTS guild_conf (
+            guild_id TEXT PRIMARY KEY NOT NULL UNIQUE,
+            prefix TEXT NOT NULL DEFAULT 'c.'
+        );
+    `)
+
     console.log(`Database aberta em ${Date.now() - t0}ms`)
 })()
 

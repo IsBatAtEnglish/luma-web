@@ -22,6 +22,7 @@
     "scripts": {
         "build": "tsc",
         "build-front": "cd src/app/ && npm run build; cd ../../; rm -rf dist/public; mv src/app/dist dist/public",
+        "build-front-css": "cd src/app/ && npm run build:css; cd ../../; rm -rf dist/public/css; mv src/app/dist/css dist/public",
         "build-all": "npm run build && npm run build-front",
         "mkenv": "sed 's/=.*/=/' .env > .env.example"
     }

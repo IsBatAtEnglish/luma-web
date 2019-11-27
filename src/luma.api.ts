@@ -2,6 +2,9 @@ import Koa from 'koa'
 import Router from 'koa-router'
 import fetch from 'node-fetch'
 import { isLumaTokenValid, getOAuthToken } from './auth.tokens'
+import db from './db'
+
+import * as GuildConfig from './interfaces/guild.config'
 
 const LumaAPI = new Router({
     prefix: '/api'
@@ -48,6 +51,17 @@ LumaAPI.get('/userGuilds', requiresAuth, async (ctx: Koa.Context) => {
         }).then(r => r.json())
 
     ctx.body = resp
+})
+
+// Retorna a configuração salva para uma guild
+LumaAPI.get('/guild/:id', requiresAuth, async (ctx: Koa.Context) => {
+    let id: string = ctx.params.id
+
+    let data: GuildConfig.GuildConfig = await db().get(`
+        SELECT * FROM guild_conf WHERE guild_id = ?
+    `, id)
+
+    ctx.body = Object.assign(GuildConfig.defaults(id), data)
 })
 
 export default LumaAPI

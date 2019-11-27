@@ -2,6 +2,7 @@ import User from './interfaces/user'
 import Guild from './interfaces/guild'
 
 import { convertPerms } from './lib/discord.permissions'
+import { GuildConfig } from './interfaces/guild.config'
 
 class LumaAPI {
     async startOAuth() : Promise<void> {
@@ -46,6 +47,13 @@ class LumaAPI {
             throw new Error('Usuário não obtido: ' + user.error)
 
         return user
+    }
+
+    async getGuildConfig(guild_id: string) : Promise<GuildConfig> {
+        let guildconf = await fetch(`/api/guild/${guild_id}`)
+                            .then(r => r.json())
+
+        return guildconf
     }
 
     /**

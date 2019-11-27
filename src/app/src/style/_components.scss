@@ -21,3 +21,21 @@
 .button:active {
     background-color: mix(black, cor('accent'), 10%);
 }
+
+.text-input-wrapper {
+    display: flex;
+    flex-direction: column;
+
+    .text-input-label {
+        font-size: 0.7em;
+    }
+
+    .text-input {
+        padding: 0.7em 0.5em;
+        background: cor('dark');
+        border: 2px solid cor('dark');
+        color: cor('text');
+        border-radius: 3px;
+        margin: 0.2em 0;
+    }
+}
